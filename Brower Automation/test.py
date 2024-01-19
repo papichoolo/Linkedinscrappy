@@ -4,7 +4,8 @@ from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import csv
 import time
-
+import os
+from decouple import config
 # Function to initialize a Chrome browser with Selenium
 def init_browser():
     options = webdriver.ChromeOptions()
@@ -29,6 +30,8 @@ def login_to_linkedin(browser, username, password):
     # Click the login button
     login_button.click()
 
+    time.sleep(10)  # Allow time for the page to load
+
 # Function to search for users on LinkedIn
 def search_linkedin_users(browser, search_query):
     search_box = browser.find_element(By.CSS_SELECTOR, "input.search-global-typeahead__input")
@@ -46,7 +49,7 @@ def extract_user_data(browser):
 
     # Extract user data from the search results
     user_data_list = []
-    search_results = soup.find_all("li", class_="search-result")
+    search_results = soup.find_all("li", class_="reusable-search__result-container")
     
     for result in search_results[:10]:  # Only consider the first 10 search results
         name_element = result.find("span", class_="actor-name")
@@ -74,11 +77,11 @@ def save_to_csv(user_data_list, csv_filename):
 
 if __name__ == "__main__":
     # Set your LinkedIn credentials
-    linkedin_username = "YourLinkedInUsername"
-    linkedin_password = "YourLinkedInPassword"
+    linkedin_username = "email"
+    linkedin_password = "password"
 
     # Set the search query
-    search_query = "John Doe"  # Replace with the desired user's name
+    search_query = "Sourav Dutta"  # Replace with the desired user's name
 
     # Set the filename for the CSV file
     csv_filename = "linkedin_data.csv"

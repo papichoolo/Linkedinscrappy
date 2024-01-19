@@ -1,8 +1,8 @@
 import requests
 
 # Replace with your actual LinkedIn app credentials
-CLIENT_ID = '772mgo6l0kxmjd'
-CLIENT_SECRET = 'uinRra1UsxEs2Q59'
+CLIENT_ID = ''
+CLIENT_SECRET = ''
 REDIRECT_URI = 'https://oauth.pstmn.io/v1/browser-callback'
 
 # Step 1: Redirect the user to the LinkedIn authorization URL
