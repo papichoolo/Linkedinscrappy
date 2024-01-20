@@ -11,3 +11,4 @@ This will done in Two Ways:
     - Getting r_basicprofile information
 2) Using Browser Componenets like Selenium, BeatifulSoup etc.
     - TODO: Collect Profile Information
+    - Collect Profile Header
