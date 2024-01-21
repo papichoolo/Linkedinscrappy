@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import csv
 import time
 import os
-from decouple import config
+import getpass
 # Function to initialize a Chrome browser with Selenium
 def init_browser():
     options = webdriver.ChromeOptions()
@@ -49,26 +49,38 @@ def extract_user_data(browser):
 
     # Extract user data from the search results
     user_data_list = []
+    title_list=[]
     search_results = soup.find_all("li", class_="reusable-search__result-container")
-    
+
+    user_data_list = []  # Initialize an empty list to store user data
+
     for result in search_results[:10]:  # Only consider the first 10 search results
-        name_element = result.find("span", class_="actor-name")
+        # Find the span element within the current result
+        name_element = result.find('span', {'aria-hidden': 'true'})
         name = name_element.get_text(strip=True) if name_element else "N/A"
+
+        primary_title_element = result.find("div", class_="entity-result__primary-subtitle t-14 t-black t-normal")
+        primary_title = primary_title_element.get_text(strip=True) if primary_title_element else "N/A"
 
         # You can extract other information such as job title, company, etc., based on your needs
 
         user_data = {
             "Name": name,
+            "Title": primary_title
             # Add other fields as needed
         }
         user_data_list.append(user_data)
 
     return user_data_list
+    
+
+
+    
 
 # Function to save user data to a CSV file
 def save_to_csv(user_data_list, csv_filename):
     with open(csv_filename, mode='w', newline='', encoding='utf-8') as csv_file:
-        fieldnames = ["Name"]  # Add other field names as needed
+        fieldnames = ["Name","Title"]  # Add other field names as needed
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         writer.writeheader()
 
@@ -77,11 +89,11 @@ def save_to_csv(user_data_list, csv_filename):
 
 if __name__ == "__main__":
     # Set your LinkedIn credentials
-    linkedin_username = "email"
-    linkedin_password = "password"
+    linkedin_username = str(input("Enter Email:"))
+    linkedin_password = getpass.getpass("Enter Password:")
 
     # Set the search query
-    search_query = "Sourav Dutta"  # Replace with the desired user's name
+    search_query = str(input("Enter Name to search: "))  # Replace with the desired user's name
 
     # Set the filename for the CSV file
     csv_filename = "linkedin_data.csv"
