@@ -10,4 +10,4 @@ This will done in Two Ways:
     - Oauth access token Collecting Process
     - Getting r_basicprofile information
 2) Using Browser Componenets like Selenium, BeatifulSoup etc.
-    - *Now Ready* Enter your Linkedin credentials and the name you want to search, and collect information of top 10 relevant people.
+    - **Now Ready** Enter your Linkedin credentials and the name you want to search, and collect information of top 10 relevant people.
