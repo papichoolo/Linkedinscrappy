@@ -37,6 +37,11 @@ def search_linkedin_users(browser, search_query):
     search_box = browser.find_element(By.CSS_SELECTOR, "input.search-global-typeahead__input")
     search_box.send_keys(search_query)
     search_box.send_keys(Keys.RETURN)
+    time.sleep(5)
+    people_button= browser.find_element(By.CLASS_NAME,'artdeco-pill--choice')
+    people_button.click()
+    time.sleep(2)
+    
 
 # Function to extract user data from search results
 def extract_user_data(browser):
@@ -62,11 +67,14 @@ def extract_user_data(browser):
         primary_title_element = result.find("div", class_="entity-result__primary-subtitle t-14 t-black t-normal")
         primary_title = primary_title_element.get_text(strip=True) if primary_title_element else "N/A"
 
+        secondary_title_element = result.find("div", class_="entity-result__secondary-subtitle t-14 t-normal")
+        secondary_title=secondary_title_element.get_text(strip=True) if secondary_title_element else "N/A"
         # You can extract other information such as job title, company, etc., based on your needs
 
         user_data = {
             "Name": name,
-            "Title": primary_title
+            "Title": primary_title,
+            "Location": secondary_title
             # Add other fields as needed
         }
         user_data_list.append(user_data)
@@ -80,7 +88,7 @@ def extract_user_data(browser):
 # Function to save user data to a CSV file
 def save_to_csv(user_data_list, csv_filename):
     with open(csv_filename, mode='w', newline='', encoding='utf-8') as csv_file:
-        fieldnames = ["Name","Title"]  # Add other field names as needed
+        fieldnames = ["Name","Title","Location"]  # Add other field names as needed
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         writer.writeheader()
 
